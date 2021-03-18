@@ -6,7 +6,8 @@ target 'parstagram' do
   use_frameworks!
 
   # Pods for parstagram
-  pod 'Parse'
+  pod "Parse"
+  pod "AlamofireImage"
 
   target 'parstagramTests' do
     inherit! :search_paths
