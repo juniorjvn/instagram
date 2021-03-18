@@ -23,13 +23,17 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.delegate = self
         tableView.dataSource = self
 
-        loadPosts()
+        //loadPosts()
         myRefreshControl.addTarget(self, action: #selector(loadPosts), for: .valueChanged)
         tableView.refreshControl = myRefreshControl
         
         // Do any additional setup after loading the view.
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.loadPosts()
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return posts.count
@@ -52,7 +56,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     @objc func loadPosts(){
-        numberOfPosts = 3
+        numberOfPosts = 20
         
         let query = PFQuery(className: "Posts")
         query.includeKey("author")
@@ -69,7 +73,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func loadMorePosts(){
-        numberOfPosts = numberOfPosts + 3
+        numberOfPosts = numberOfPosts + 20
         
         let query = PFQuery(className: "Posts")
         query.includeKey("author")
@@ -86,7 +90,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row + 1 == posts.count{
+        if indexPath.row + 1 == numberOfPosts{
             loadMorePosts()
         }
     }
